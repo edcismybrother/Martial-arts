@@ -25,6 +25,7 @@ func NewManager() *component.Manager {
 		// PlanetManager:   make([]*planet.Planet, 0),
 		UniverseManager: make([]*universe.Universe, 0),
 		// WorldManager:    make([]*world.World, 0),
+		PersonID: new(uint64),
 	}
 }
 
@@ -33,17 +34,37 @@ func NewComplateManager() *component.Manager {
 		// PlanetManager:   make([]*planet.Planet, 0),
 		UniverseManager: make([]*universe.Universe, 0),
 		// WorldManager:    make([]*world.World, 0),
+		PersonID: new(uint64),
 	}
 
-	m.RegestUniverse(&universe.Universe{
-		Planets: []*planet.Planet{&planet.Planet{
-			Worlds: []*world.World{&world.World{
-				Persons: make([]*person.Person, 0),
-				Channel: make(chan []byte, 100),
-			}},
-			Channel: make(chan []byte, 100),
-		}},
-		Channel: make(chan []byte, 100)})
+	// m.RegisterUniverse(&universe.Universe{
+	// 	Planets: []*planet.Planet{&planet.Planet{
+	// 		Worlds: []*world.World{&world.World{
+	// 			Persons: make([]*person.Person, 0),
+	// 			Channel: make(chan []byte, 100),
+	// 		}},
+	// 		Channel: make(chan []byte, 100),
+	// 	}},
+	// 	Channel: make(chan []byte, 100)})
+	u := &universe.Universe{
+		ID:      1,
+		Planets: make([]*planet.Planet, 0),
+		Channel: make(chan []byte, 100),
+	}
+	m.RegisterUniverse(u)
+	p := &planet.Planet{
+		ID:      1,
+		Worlds:  make([]*world.World, 0),
+		Channel: make(chan []byte, 100),
+	}
+	m.RegisterPlanet(u.ID, p)
+	w := &world.World{
+		ID:      1,
+		Persons: make([]*person.Person, 0),
+		Channel: make(chan []byte, 100),
+	}
+	m.RegisterWorld(u.ID, p.ID, w)
+
 	// m.RegestPlanet(&planet.Planet{
 	// 	Worlds: []*world.World{&world.World{
 	// 		Persons: make([]*person.Person, 0),

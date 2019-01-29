@@ -7,6 +7,7 @@ import (
 
 // Universe a bigest area
 type Universe struct {
+	ID      int // Uniquely identifies
 	Planets []*planet.Planet
 	Channel chan []byte
 }

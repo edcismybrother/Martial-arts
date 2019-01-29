@@ -7,6 +7,7 @@ import (
 
 // Planet a big area
 type Planet struct {
+	ID      int // Uniquely identifies
 	Worlds  []*world.World
 	Channel chan []byte
 }

@@ -7,6 +7,7 @@ import (
 
 // World a based area
 type World struct {
+	ID      int // Uniquely identifies
 	Persons []*person.Person
 	Channel chan []byte
 }
