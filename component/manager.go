@@ -79,8 +79,11 @@ func (m *Manager) GeneratePerson() {
 
 	p := &person.Person{
 		Identify: atomic.AddUint64(m.PersonID, 1),
-		Channel:  make(chan []byte, 0),
+		Channel:  make(chan []byte, 1),
 	}
 	w.Persons = append(w.Persons, p)
-	fmt.Printf("person-identify:%v is created into universe-%v:planet-%v:world-%v\n", p.Identify, m.UniverseManager[0].ID, m.UniverseManager[0].Planets[0].ID, m.UniverseManager[0].Planets[0].Worlds[0].ID)
+	go func() {
+		p.Run()
+		fmt.Printf("person-identify:%v is created into universe-%v:planet-%v:world-%v\n", p.Identify, m.UniverseManager[0].ID, m.UniverseManager[0].Planets[0].ID, m.UniverseManager[0].Planets[0].Worlds[0].ID)
+	}()
 }
